@@ -17,6 +17,7 @@
 		<delete dir="${dir}/travis" />
 		<delete dir="${dir}/vendor" />
 
+		<delete file="${dir}/.editorconfig" />
 		<delete file="${dir}/.gitignore" />
 		<delete file="${dir}/.gitattributes" />
 		<delete file="${dir}/.travis.yml" />
