@@ -1,6 +1,6 @@
 # User Details extension for phpBB
 
-This extension adds the facility to produce a listinf, either on screen or in CSV format, of selected data for phpBB members.
+This extension adds the facility to produce a listing, either on screen or in CSV format, of selected data for phpBB members.
 
 [![Build Status](https://travis-ci.com/david63/userdetails.svg?branch=master)](https://travis-ci.com/david63/userdetails)
 [![License](https://poser.pugx.org/david63/userdetails/license)](https://packagist.org/packages/david63/userdetails)
@@ -13,11 +13,11 @@ This extension adds the facility to produce a listinf, either on screen or in CS
 [![Compatible](https://img.shields.io/badge/compatible-phpBB:3.3.x-blue.svg)](https://shields.io/)
 
 ## Minimum Requirements
-* phpBB 3.2.0
-* PHP 5.4
+* phpBB 3.3.0
+* PHP 7.3.1
 
 ## Install
-1. [Download the latest release](https://github.com/david63/userdetails/archive/3.2.zip) and unzip it.
+1. [Download the latest release](https://github.com/david63/userdetails/archive/3.3.zip) and unzip it.
 2. Unzip the downloaded release and copy it to the `ext` directory of your phpBB board.
 3. Navigate in the ACP to `Customise -> Manage extensions`.
 4. Look for `User details` under the Disabled Extensions list and click its `Enable` link.
@@ -33,4 +33,4 @@ This extension adds the facility to produce a listinf, either on screen or in CS
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
 
-© 2019 - David Wood
+© 2020 - David Wood
