@@ -624,7 +624,7 @@ class data_controller
 			WHERE pf.field_id  = pl.field_id
 				AND pl.lang_id = l.lang_id
 				AND pf.field_active = 1
-				AND l.lang_iso = '" . $this->user->data['user_lang'] . "'";
+				AND l.lang_iso = '" . (string) $this->user->data['user_lang'] . "'";
 
 		$result	= $this->db->sql_query($sql);
 
@@ -672,7 +672,7 @@ class data_controller
 					'ON'	=> 'pf.field_id = pfl.field_id',
 				),
 			),
-			'WHERE' => "pf.field_name = '" . $field_name . "'",
+			'WHERE' => "pf.field_name = '" . (string) $field_name . "'",
 		));
 
 		$result			= $this->db->sql_query($sql);
