@@ -1,55 +1,57 @@
 {% include '@' ~ NAMESPACE ~ '/head_panel.html' %}
 
-<form id="userdetails" method="post" action="{{ U_ACTION }}">
-	<div class="head-panel">
-		<div class="select-buttons">
-			<input class="adm-button" type="submit" value="{{ lang('DISPLAY') }}" name="display" />
-			&nbsp;&nbsp;&nbsp;
-			<input class="adm-button" type="submit" value="{{ lang('CSV') }}" name="csv" />
-			&nbsp;&nbsp;&nbsp;
-			<input class="adm-button" type="reset" value="{{ lang('CLEAR_ATTRIB') }}" onclick="marklist('userdetails', 'mark', false); return false;" />
-		</div>
-	</div>
-
-	<div class="table">
-		<div class="table-header">
-			<div class="table-header-cell-select">{{ lang('SELECT') }}</div>
-			<div class="table-header-cell-narrow">{{ lang('ATTRIBUTE') }}</div>
-			<div class="table-header-cell-right">{{ lang('ATTRIBUTE_EXPLAIN') }}</div>
+{% if PHP_VALID and PHPBB_VALID %}
+	<form id="userdetails" method="post" action="{{ U_ACTION }}">
+		<div class="head-panel">
+			<div class="select-buttons">
+				<input class="adm-button" type="submit" value="{{ lang('DISPLAY') }}" name="display" />
+				&nbsp;&nbsp;&nbsp;
+				<input class="adm-button" type="submit" value="{{ lang('CSV') }}" name="csv" />
+				&nbsp;&nbsp;&nbsp;
+				<input class="adm-button" type="reset" value="{{ lang('CLEAR_ATTRIB') }}" onclick="marklist('userdetails', 'mark', false); return false;" />
+			</div>
 		</div>
 
-		<div class="table-body">
-			{% for row in select_row %}
-				{% if row.S_ROW_COUNT is even %}<div class="table-row1">{% else %}<div class="table-row2">{% endif %}
-					<div class="table-body-cell">
-						<div>
-							<span class="checkbox">
-								<input type="checkbox">
-								<input type="checkbox" name="mark[]" value="{{ row.ID }}" {% if row.OPT_SET %} checked {% endif %}/>
-								<label data-on="✔" data-off="✘"></label>
-							</span>
+		<div class="table">
+			<div class="table-header">
+				<div class="table-header-cell-select">{{ lang('SELECT') }}</div>
+				<div class="table-header-cell-narrow">{{ lang('ATTRIBUTE') }}</div>
+				<div class="table-header-cell-right">{{ lang('ATTRIBUTE_EXPLAIN') }}</div>
+			</div>
+
+			<div class="table-body">
+				{% for row in select_row %}
+					{% if row.S_ROW_COUNT is even %}<div class="table-row1">{% else %}<div class="table-row2">{% endif %}
+						<div class="table-body-cell">
+							<div>
+								<span class="checkbox">
+									<input type="checkbox">
+									<input type="checkbox" name="mark[]" value="{{ row.ID }}" {% if row.OPT_SET %} checked {% endif %}/>
+									<label data-on="✔" data-off="✘"></label>
+								</span>
+							</div>
 						</div>
+
+						<div class="table-body-cell-narrow">{{ row.ATTRIBUTE }}</div>
+
+						<div class="table-body-cell">{{ row.ATTRIBUTE_EXPLAIN }}</div>
 					</div>
-
-					<div class="table-body-cell-narrow">{{ row.ATTRIBUTE }}</div>
-
-					<div class="table-body-cell">{{ row.ATTRIBUTE_EXPLAIN }}</div>
-				</div>
-			{% endfor %}
+				{% endfor %}
+			</div>
 		</div>
-	</div>
-	<br>
+		<br>
 
-	<div class="head-panel">
-		<div class="select-buttons">
-			<input class="adm-button" type="submit" value="{{ lang('DISPLAY') }}" name="display" />
-			&nbsp;&nbsp;&nbsp;
-			<input class="adm-button" type="submit" value="{{ lang('CSV') }}" name="csv" />
-			&nbsp;&nbsp;&nbsp;
-			<input class="adm-button" type="reset" value="{{ lang('CLEAR_ATTRIB') }}" onclick="marklist('userdetails', 'mark', false); return false;" />
-			{{ S_FORM_TOKEN }}
+		<div class="head-panel">
+			<div class="select-buttons">
+				<input class="adm-button" type="submit" value="{{ lang('DISPLAY') }}" name="display" />
+				&nbsp;&nbsp;&nbsp;
+				<input class="adm-button" type="submit" value="{{ lang('CSV') }}" name="csv" />
+				&nbsp;&nbsp;&nbsp;
+				<input class="adm-button" type="reset" value="{{ lang('CLEAR_ATTRIB') }}" onclick="marklist('userdetails', 'mark', false); return false;" />
+				{{ S_FORM_TOKEN }}
+			</div>
 		</div>
-	</div>
-</form>
+	</form>
+{% endif %}
 
 {% include '@david63_userdetails/donate.html' %}

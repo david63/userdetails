@@ -3,27 +3,18 @@ imports:
     - { resource: arraydata.yml }
 
 services:
+    _defaults:
+        autowire: true
+        bind:
+            $root_path: '%core.root_path%'
+            $php_ext: '%core.php_ext%'
+            $tables: '%tables%'
+            $ext_images_path: '%core.root_path%ext/david63/userdetails/adm/style/images'
+            $select_ary: '%select_ary%'
+            $constants: '%constants%'
+
     david63.userdetails.data.controller:
         class: david63\userdetails\controller\data_controller
-        arguments:
-            - '@config'
-            - '@config_text'
-            - '@dbal.conn'
-            - '@request'
-            - '@template'
-            - '@pagination'
-            - '@user'
-            - '@group_helper'
-            - '@language'
-            - '@profilefields.type_collection'
-            - '@david63.userdetails.core.functions'
-            - '%select_ary%'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables%'
-            - '%constants%'
 
     david63.userdetails.core.functions:
         class: david63\userdetails\core\functions
-        arguments:
-            - '@ext.manager'

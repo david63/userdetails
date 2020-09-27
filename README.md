@@ -7,6 +7,10 @@ This extension adds the facility to produce a listinf, either on screen or in CS
 [![Latest Stable Version](https://poser.pugx.org/david63/userdetails/v/stable)](https://packagist.org/packages/david63/userdetails)
 [![Latest Unstable Version](https://poser.pugx.org/david63/userdetails/v/unstable)](https://packagist.org/packages/david63/userdetails)
 [![Total Downloads](https://poser.pugx.org/david63/userdetails/downloads)](https://packagist.org/packages/david63/userdetails)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0455c9bf15c74844b17041c1956d25d1)](https://www.codacy.com/manual/david63/userdetails?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=david63/userdetails&amp;utm_campaign=Badge_Grade)
+
+[![Compatible](https://img.shields.io/badge/compatible-phpBB:3.2.x-blue.svg)](https://shields.io/)
+[![Compatible](https://img.shields.io/badge/compatible-phpBB:3.3.x-blue.svg)](https://shields.io/)
 
 ## Minimum Requirements
 * phpBB 3.2.0

@@ -15,7 +15,7 @@ class version_2_1_0 extends migration
 {
 	public function update_data()
 	{
-		$update_data = array();
+		$update_data = [];
 
 		$update_data[] = array('config.add', array('user_details_save_flag', false, true));
 		$update_data[] = array('config_text.add', array('user_details_opts', '["s0"]'));
