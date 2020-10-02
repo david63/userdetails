@@ -9,7 +9,6 @@
 
 namespace david63\userdetails\controller;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use phpbb\config\config;
 use phpbb\config\db_text;
 use phpbb\db\driver\driver_interface;
@@ -19,6 +18,7 @@ use phpbb\pagination;
 use phpbb\user;
 use phpbb\group\helper;
 use phpbb\language\language;
+use phpbb\di\service_collection;
 use david63\userdetails\core\functions;
 
 /**
@@ -53,8 +53,8 @@ class data_controller
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var ContainerInterface */
-	protected $container;
+	/** @var \phpbb\di\service_collection */
+	protected $type_collection;
 
 	/** @var \david63\userdetails\core\functions */
 	protected $functions;
@@ -95,7 +95,7 @@ class data_controller
 	 * @param \phpbb\di\service_collection 			$type_collection	CPF data
 	 * @param \david63\userdetails\core\functions	functions			Functions for the extension
 	 * @param array	                            	$select_ary			Custom select data
-	 * @param string								$root_path    phpBB root path
+	 * @param string								$root_path    		phpBB root path
 	 * @param string								$php_ext            phpBB extension
 	 * @param array	                            	$tables				phpBB db tables
 	 * @param array	                            	$constants			phpBB constants
@@ -104,7 +104,7 @@ class data_controller
 	 * @return \david63\userdetails\controller\data_controller
 	 * @access public
 	 */
-	public function __construct(config $config, db_text $config_text, driver_interface $db, request $request, template $template, pagination $pagination, user $user, helper $group_helper, language $language, ContainerInterface $phpbb_container, functions $functions, array $select_ary, string $root_path, string $php_ext, array $tables, array $constants, string $ext_images_path)
+	public function __construct(config $config, db_text $config_text, driver_interface $db, request $request, template $template, pagination $pagination, user $user, helper $group_helper, language $language, service_collection $type_collection, functions $functions, array $select_ary, string $root_path, string $php_ext, array $tables, array $constants, string $ext_images_path)
 	{
 		$this->config			= $config;
 		$this->config_text 		= $config_text;
@@ -115,7 +115,7 @@ class data_controller
 		$this->user				= $user;
 		$this->group_helper		= $group_helper;
 		$this->language			= $language;
-		$this->container		= $phpbb_container;
+		$this->type_collection 	= $type_collection;
 		$this->functions		= $functions;
 		$this->select_ary		= $select_ary;
 		$this->root_path		= $root_path;
@@ -679,9 +679,6 @@ class data_controller
 		$profile_data	= $this->db->sql_fetchrow($result);
 
 		$this->db->sql_freeresult($result);
-
-		$cp = $this->container->get('profilefields.manager');
-		$this->type_collection = $this->container->get('profilefields.type_collection');
 
 		$profile_field = $this->type_collection[$profile_data['field_type']];
 

@@ -12,9 +12,23 @@ services:
             $ext_images_path: '%core.root_path%ext/david63/userdetails/adm/style/images'
             $select_ary: '%select_ary%'
             $constants: '%constants%'
+        public: true
 
     david63.userdetails.data.controller:
         class: david63\userdetails\controller\data_controller
 
     david63.userdetails.core.functions:
         class: david63\userdetails\core\functions
+
+    # aliases to allow autowiring not conflicting with other extensions
+    phpbb\extension\manager: '@ext.manager'
+    phpbb\di\service_collection: '@profilefields.type_collection'
+    phpbb\template\template: '@template'
+    phpbb\config\config: '@config'
+    phpbb\config\db_text: '@config_text'
+    phpbb\db\driver\driver_interface: '@dbal.conn'
+    phpbb\request\request: '@request'
+    phpbb\pagination: '@pagination'
+    phpbb\user: '@user'
+    phpbb\group\helper: '@group_helper'
+    phpbb\language\language: '@language'
