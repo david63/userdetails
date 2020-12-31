@@ -2,11 +2,12 @@
 
 This extension adds the facility to produce a listing, either on screen or in CSV format, of selected data for phpBB members.
 
-[![Build Status](https://travis-ci.com/david63/userdetails.svg?branch=master)](https://travis-ci.com/david63/userdetails)
+[![Build Status](https://github.com/david63/userdetails/workflows/Tests/badge.svg)](https://github.com/phpbb-extensions/david63/userdetails)
 [![License](https://poser.pugx.org/david63/userdetails/license)](https://packagist.org/packages/david63/userdetails)
 [![Latest Stable Version](https://poser.pugx.org/david63/userdetails/v/stable)](https://packagist.org/packages/david63/userdetails)
 [![Latest Unstable Version](https://poser.pugx.org/david63/userdetails/v/unstable)](https://packagist.org/packages/david63/userdetails)
 [![Total Downloads](https://poser.pugx.org/david63/userdetails/downloads)](https://packagist.org/packages/david63/userdetails)
+[![codecov](https://codecov.io/gh/david63/userdetails/branch/master/graph/badge.svg?token=D2500PgRex)](https://codecov.io/gh/david63/userdetails)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0455c9bf15c74844b17041c1956d25d1)](https://www.codacy.com/manual/david63/userdetails?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=david63/userdetails&amp;utm_campaign=Badge_Grade)
 
 [![Compatible](https://img.shields.io/badge/compatible-phpBB:3.2.x-blue.svg)](https://shields.io/)
