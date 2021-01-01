@@ -2,7 +2,7 @@
 /**
 *
 * @package Reset User Login Attempts
-* @copyright (c) 2016 david63
+* @copyright (c) 2020 david63
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
@@ -17,7 +17,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /// DEVELOPERS PLEASE NOTE
