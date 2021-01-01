@@ -4,3 +4,4 @@ parameters:
         max_age: 120
         min_age: 0
         user_ignore: 2
+        csv_delimiter: ','

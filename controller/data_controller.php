@@ -24,7 +24,7 @@ use david63\userdetails\core\functions;
 /**
 * Data controller
 */
-class data_controller implements data_interface
+class data_controller
 {
 	/** @var \phpbb\config\config */
 	protected $config;
@@ -63,7 +63,7 @@ class data_controller implements data_interface
 	protected $select_ary;
 
 	/** @var string phpBB root path */
-	protected $phpbb_root_path;
+	protected $root_path;
 
 	/** @var string phpBB extension */
 	protected $php_ext;
@@ -76,6 +76,9 @@ class data_controller implements data_interface
 
 	/** @var string custom constants */
 	protected $constants;
+
+	/** @var string */
+	protected $ext_images_path;
 
 	/**
 	 * Constructor for data controller
@@ -92,15 +95,16 @@ class data_controller implements data_interface
 	 * @param \phpbb\di\service_collection 			$type_collection	CPF data
 	 * @param \david63\userdetails\core\functions	functions			Functions for the extension
 	 * @param array	                            	$select_ary			Custom select data
-	 * @param string								$phpbb_root_path    phpBB root path
+	 * @param string								$root_path    		phpBB root path
 	 * @param string								$php_ext            phpBB extension
 	 * @param array	                            	$tables				phpBB db tables
 	 * @param array	                            	$constants			phpBB constants
+	 * @param string                                $ext_images_path    Path to this extension's images
 	 *
 	 * @return \david63\userdetails\controller\data_controller
 	 * @access public
 	 */
-	public function __construct(config $config, db_text $config_text, driver_interface $db, request $request, template $template, pagination $pagination, user $user, helper $group_helper, language $language, service_collection $type_collection, functions $functions, $select_ary, $phpbb_root_path, $php_ext, $tables, $constants)
+	public function __construct(config $config, db_text $config_text, driver_interface $db, request $request, template $template, pagination $pagination, user $user, helper $group_helper, language $language, service_collection $type_collection, functions $functions, array $select_ary, string $root_path, string $php_ext, array $tables, array $constants, string $ext_images_path)
 	{
 		$this->config			= $config;
 		$this->config_text 		= $config_text;
@@ -114,10 +118,11 @@ class data_controller implements data_interface
 		$this->type_collection 	= $type_collection;
 		$this->functions		= $functions;
 		$this->select_ary		= $select_ary;
-		$this->phpbb_root_path	= $phpbb_root_path;
+		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 		$this->tables			= $tables;
 		$this->constants		= $constants;
+		$this->ext_images_path	= $ext_images_path;
 	}
 
 	/**
@@ -129,9 +134,7 @@ class data_controller implements data_interface
 	public function select_output()
 	{
 		// Load the language files
-		$this->language->add_lang('acp_common', $this->functions->get_ext_namespace());
-		$this->language->add_lang('acp_userdetails', $this->functions->get_ext_namespace());
-		$this->language->add_lang('userdetails_explain', $this->functions->get_ext_namespace());
+		$this->language->add_lang(array('acp_userdetails', 'userdetails_explain', 'acp_common'), $this->functions->get_ext_namespace());
 
 		// Create a form key for preventing CSRF attacks
 		add_form_key($this->constants['form_key']);
@@ -167,13 +170,21 @@ class data_controller implements data_interface
 		// Template vars for header panel
 		$version_data	= $this->functions->version_check();
 
+		// Are the PHP and phpBB versions valid for this extension?
+		$valid = $this->functions->ext_requirements();
+
 		$this->template->assign_vars(array(
-			'DOWNLOAD'			=> (array_key_exists('download', $version_data)) ? '<a href =' . $version_data['download'] . '>' . $this->language->lang('NEW_VERSION_LINK') . '</a>' : '',
+			'DOWNLOAD'			=> (array_key_exists('download', $version_data)) ? '<a class="download" href =' . $version_data['download'] . '>' . $this->language->lang('NEW_VERSION_LINK') . '</a>' : '',
+
+			'EXT_IMAGE_PATH'	=> $this->ext_images_path,
 
 			'HEAD_TITLE'		=> $this->language->lang('ACP_USER_DETAILS'),
 			'HEAD_DESCRIPTION'	=> $this->language->lang('ACP_USER_DETAILS_CONFIG'),
 
 			'NAMESPACE'			=> $this->functions->get_ext_namespace('twig'),
+
+			'PHP_VALID' 		=> $valid[0],
+			'PHPBB_VALID' 		=> $valid[1],
 
 			'S_BACK'			=> $back,
 			'S_VERSION_CHECK'	=> (array_key_exists('current', $version_data)) ? $version_data['current'] : false,
@@ -192,7 +203,7 @@ class data_controller implements data_interface
 	public function display_output($mode)
 	{
 		// Load the language files
-		$this->language->add_lang('acp_userdetails', 'david63/userdetails');
+		$this->language->add_lang(array('acp_userdetails', 'acp_common'), $this->functions->get_ext_namespace());
 
 		// Start initial var setup
 		$start			= $this->request->variable('start', '');
@@ -231,7 +242,7 @@ class data_controller implements data_interface
 		$sort_ary	= array('u' => $this->language->lang('SORT_USERNAME'));
 		$order_ary	= array('u' => 'u.username_clean');
 		$filter_ary	= array('u' => $this->language->lang('SORT_USERNAME'));
-		$save_ary	= array();
+		$save_ary	= [];
 
 		// Create the CSV file
 		if ($mode == 'csv')
@@ -241,7 +252,7 @@ class data_controller implements data_interface
 
 			$filename	= 'phpBB_users_' . date('Ymd') . '.csv';
 			$fp 		= fopen('php://output', 'w');
-			$csv_data	= '"' . $this->language->lang('USERNAME') . '",';
+			$csv_data	= '"' . $this->language->lang('USERNAME') . '"' . $this->constants['csv_delimiter'];
 		}
 
 		$headings = '';
@@ -266,7 +277,7 @@ class data_controller implements data_interface
 
 					if ($mode == 'csv')
 					{
-						$csv_data	.= '"' . $this->language->lang($data['attribute']) . '",';
+						$csv_data	.= '"' . $this->language->lang($data['attribute']) . '"' . $this->constants['csv_delimiter'];
 					}
 
 					$save_ary[]				= 's' . $key;
@@ -314,7 +325,7 @@ class data_controller implements data_interface
 			$filter_by .= ' AND ' . $order_ary[$fb] . ' ' . $this->db->sql_like_expression(utf8_clean_string(substr($fc, 0, 1)) . $this->db->get_any_char());
 		}
 
-		$limit_days = array();
+		$limit_days = [];
 		$s_sort_key = $s_limit_days = $s_sort_dir = $u_sort_param = '';
 		gen_sort_selects($limit_days, $sort_ary, $sort_days, $sort_key, $sd, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
 
@@ -336,7 +347,7 @@ class data_controller implements data_interface
 			),
 			'LEFT_JOIN'	=> array(
 				array(
-					'FROM'	=> array($this->tables['groups']	=> ' g',),
+					'FROM'	=> array($this->tables['groups'] => ' g',),
 					'ON'	=> 'u.group_id = g.group_id',
 				),
 				array(
@@ -378,7 +389,7 @@ class data_controller implements data_interface
 		{
 			if (!function_exists('phpbb_get_user_rank'))
 			{
-				include("$this->phpbb_root_path/includes/functions_display.$this->php_ext");
+				include("$this->root_path/includes/functions_display.$this->php_ext");
 			}
 
 			foreach ($user_data as $row)
@@ -483,7 +494,7 @@ class data_controller implements data_interface
 				// Now let's start the output
 				if ($mode == 'csv')
 				{
-					$csv_data .= '"' . $row['username'] .'",';
+					$csv_data .= '"' . html_entity_decode($row['username']) .'"' . $this->constants['csv_delimiter'];
 				}
 
 				$output_data = '';
@@ -498,7 +509,7 @@ class data_controller implements data_interface
 
 							if ($mode == 'csv')
 							{
-								$csv_data .= '"' . $user_vars[$data['id']] . '",';
+								$csv_data .= '"' . str_replace(array("\r\n","\n","\r")," ",html_entity_decode(strip_tags($user_vars[$data['id']]))) . '"' . $this->constants['csv_delimiter'];
 							}
 						}
 					}
@@ -539,8 +550,11 @@ class data_controller implements data_interface
 				// Template vars for header panel
 				$version_data	= $this->functions->version_check();
 
+				// Are the PHP and phpBB versions valid for this extension?
+				$valid = $this->functions->ext_requirements();
+
 				$this->template->assign_vars(array(
-					'DOWNLOAD'			=> (array_key_exists('download', $version_data)) ? '<a href =' . $version_data['download'] . '>' . $this->language->lang('NEW_VERSION_LINK') . '</a>' : '',
+					'DOWNLOAD'			=> (array_key_exists('download', $version_data)) ? '<a class="download" href =' . $version_data['download'] . '>' . $this->language->lang('NEW_VERSION_LINK') . '</a>' : '',
 
 					'ERROR_TITLE'		=> $this->language->lang('WARNING'),
 					'ERROR_DESCRIPTION'	=> $this->language->lang('ERROR_EXPLAIN'),
@@ -549,6 +563,9 @@ class data_controller implements data_interface
 					'HEAD_DESCRIPTION'	=> $this->language->lang('USER_DETAILS_DISPLAY'),
 
 					'NAMESPACE'			=> $this->functions->get_ext_namespace('twig'),
+
+					'PHP_VALID' 		=> $valid[0],
+					'PHPBB_VALID' 		=> $valid[1],
 
 					'S_BACK'			=> $back,
 					'S_ERROR'			=> $error,
@@ -607,11 +624,11 @@ class data_controller implements data_interface
 			WHERE pf.field_id  = pl.field_id
 				AND pl.lang_id = l.lang_id
 				AND pf.field_active = 1
-				AND l.lang_iso = '" . (int) $this->user->data['user_lang'] . "'";
+				AND l.lang_iso = '" . (string) $this->user->data['user_lang'] . "'";
 
 		$result	= $this->db->sql_query($sql);
 
-		$pf_fields_array = array();
+		$pf_fields_array = [];
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -645,7 +662,7 @@ class data_controller implements data_interface
 
 		// Get the field data
 		$sql = $this->db->sql_build_query('SELECT', array(
-			'SELECT'	=> 'pf.*, pfl.lang_id, pfl.option_id, pfl.lang_value',
+			'SELECT'	=> 'pf.*, pfl.lang_id',
 			'FROM'		=> array(
 				$this->tables['profile_fields'] => 'pf',
 			),
@@ -655,7 +672,7 @@ class data_controller implements data_interface
 					'ON'	=> 'pf.field_id = pfl.field_id',
 				),
 			),
-			'WHERE' => "pf.field_name = '" . $field_name . "'",
+			'WHERE' => "pf.field_name = '" . (string) $field_name . "'",
 		));
 
 		$result			= $this->db->sql_query($sql);
@@ -664,6 +681,7 @@ class data_controller implements data_interface
 		$this->db->sql_freeresult($result);
 
 		$profile_field = $this->type_collection[$profile_data['field_type']];
+
 		return $profile_field->get_profile_value($field_value, $profile_data);
 	}
 
@@ -722,7 +740,7 @@ class data_controller implements data_interface
 	protected function get_last_visit($user_id)
 	{
 		$last_visit 	= '';
-		$session_times	= array();
+		$session_times	= [];
 
 		$sql = 'SELECT session_user_id, MAX(session_time) AS session_time
 			FROM ' . $this->tables['sessions'] . '
@@ -803,7 +821,7 @@ class data_controller implements data_interface
 	 */
 	protected function character_select($default)
 	{
-		$options	 = array();
+		$options	 = [];
 		$options[''] = $this->language->lang('ALL');
 
 		for ($i = ord($this->language->lang('START_CHARACTER')); $i	<= ord($this->language->lang('END_CHARACTER')); $i++)

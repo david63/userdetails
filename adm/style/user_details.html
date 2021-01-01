@@ -1,54 +1,54 @@
 {% include '@' ~ NAMESPACE ~ '/head_panel.html' %}
 
-<form id="userdetails" method="post" action="{{ U_ACTION }}">
+{% if PHP_VALID and PHPBB_VALID %}
+	<form id="userdetails" method="post" action="{{ U_ACTION }}">
+		<div class="head-panel">
+			<div class="pagination">
+				[ {{ lang('TOTAL_USERS') }}{{ lang('COLON') }}{{ TOTAL_USERS }} ]
+				{% if pagination %}
+					&bull; {% include 'pagination.html' %}
+				{% else %}
+					&bull; {{ PAGE_NUMBER }}
+				{% endif %}
+			</div>
 
-	<div class="head-panel">
+			<div class="select-buttons">
+				<input class="adm-button" type="submit" value="{{ lang('UD_BACK') }}" name="back" />
+				&nbsp;&nbsp;&nbsp;
+				<input class="adm-button" type="submit" value="{{ lang('UD_GO') }}" name="sort" />
+				&nbsp;&nbsp;&nbsp;
+				<input class="adm-button" type="submit" value="{{ lang('CLEAR_FILTER') }}" name="clear_filters" />
+				<br><br>
+				<strong>&nbsp;&nbsp;{{ lang('SORT_BY') }}&nbsp;{{ lang('COLON') }}</strong>&nbsp;&nbsp;{{ S_SORT_KEY }}&nbsp;&nbsp;&nbsp;{{ S_SORT_DIR }}
+				<br>
+				<strong>{{ lang('FILTER_BY') }}&nbsp;{{ lang('COLON') }}</strong>&nbsp;&nbsp;{{ S_FILTER_BY }}&nbsp;&nbsp;&nbsp;{{ S_FILTER_CHAR }}
+			</div>
+		</div>
+
+		<div class="table">
+			<div class="table-header">
+				<div class="table-header-cell-left">{{ lang('USERNAME') }}</div>
+				{{ HEADINGS }}
+			</div>
+
+			<div class="table-body">
+				{% for data in user_data %}
+					{% if data.S_ROW_COUNT is even %}<div class="table-row1">{% else %}<div class="table-row2">{% endif %}
+						<div class="table-body-cell">{{ data.USERNAME }}</div>
+						{{ data.OUTPUT_DATA }}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
 		<div class="pagination">
-			[ {{ lang('TOTAL_USERS') }}{{ lang('COLON') }}{{ TOTAL_USERS }} ]
 			{% if pagination %}
-				&bull; {% include 'pagination.html' %}
+				{% include 'pagination.html' %}
 			{% else %}
-				&bull; {{ PAGE_NUMBER }}
+				{{ PAGE_NUMBER }}
 			{% endif %}
 		</div>
-
-		<div class="select-buttons">
-			<input class="adm-button" type="submit" value="{{ lang('UD_BACK') }}" name="back" />
-			&nbsp;&nbsp;&nbsp;
-			<input class="adm-button" type="submit" value="{{ lang('UD_GO') }}" name="sort" />
-			&nbsp;&nbsp;&nbsp;
-			<input class="adm-button" type="submit" value="{{ lang('CLEAR_FILTER') }}" name="clear_filters" />
-			<br><br>
-			<strong>&nbsp;&nbsp;{{ lang('SORT_BY') }}&nbsp;{{ lang('COLON') }}</strong>&nbsp;&nbsp;{{ S_SORT_KEY }}&nbsp;&nbsp;&nbsp;{{ S_SORT_DIR }}
-			<br>
-			<strong>{{ lang('FILTER_BY') }}&nbsp;{{ lang('COLON') }}</strong>&nbsp;&nbsp;{{ S_FILTER_BY }}&nbsp;&nbsp;&nbsp;{{ S_FILTER_CHAR }}
-		</div>
-	</div>
-
-	<div class="table">
-		<div class="table-header">
-			<div class="table-header-cell-left">{{ lang('USERNAME') }}</div>
-			{{ HEADINGS }}
-		</div>
-
-		<div class="table-body">
-			{% for data in user_data %}
-				{% if data.S_ROW_COUNT is even %}<div class="table-row1">{% else %}<div class="table-row2">{% endif %}
-					<div class="table-body-cell">{{ data.USERNAME }}</div>
-					{{ data.OUTPUT_DATA }}
-				</div>
-			{% endfor %}
-		</div>
-	</div>
-
-	<div class="pagination">
-		{% if pagination %}
-			{% include 'pagination.html' %}
-		{% else %}
-			{{ PAGE_NUMBER }}
-		{% endif %}
-	</div>
-
-</form>
+	</form>
+{% endif %}
 
 {% include 'overall_footer.html' %}
