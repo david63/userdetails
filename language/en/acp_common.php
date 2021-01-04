@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * @package Move Disapproved Posts
- * @copyright (c) 2020 david63
+ * @package User Details Extension
+ * @copyright (c) 2016 david63
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */

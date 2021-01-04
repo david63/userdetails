@@ -10,7 +10,6 @@ This extension adds the facility to produce a listing, either on screen or in CS
 [![codecov](https://codecov.io/gh/david63/userdetails/branch/master/graph/badge.svg?token=D2500PgRex)](https://codecov.io/gh/david63/userdetails)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0455c9bf15c74844b17041c1956d25d1)](https://www.codacy.com/manual/david63/userdetails?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=david63/userdetails&amp;utm_campaign=Badge_Grade)
 
-[![Compatible](https://img.shields.io/badge/compatible-phpBB:3.2.x-blue.svg)](https://shields.io/)
 [![Compatible](https://img.shields.io/badge/compatible-phpBB:3.3.x-blue.svg)](https://shields.io/)
 
 ## Minimum Requirements
