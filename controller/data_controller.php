@@ -26,37 +26,37 @@ use david63\userdetails\core\functions;
 */
 class data_controller
 {
-	/** @var \phpbb\config\config */
+	/** @var phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\config\db_text */
+	/** @var phpbb\config\db_text */
 	protected $config_text;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\request\request */
+	/** @var phpbb\request\request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\pagination */
+	/** @var phpbb\pagination */
 	protected $pagination;
 
-	/** @var \phpbb\user */
+	/** @var phpbb\user */
 	protected $user;
 
-	/** @var \phpbb\group\helper */
+	/** @var phpbb\group\helper */
 	protected $group_helper;
 
-	/** @var \phpbb\language\language */
+	/** @var phpbb\language\language */
 	protected $language;
 
-	/** @var \phpbb\di\service_collection */
+	/** @var phpbb\di\service_collection */
 	protected $type_collection;
 
-	/** @var \david63\userdetails\core\functions */
+	/** @var david63\userdetails\core\functions */
 	protected $functions;
 
 	/** @var string custom select_ary */
@@ -83,17 +83,17 @@ class data_controller
 	/**
 	 * Constructor for data controller
 	 *
-	 * @param \phpbb\config\config              	$config             Config object
-	 * @param \phpbb\config\db_text             	$config_text        Config text object
-	 * @param \phpbb\db\driver\driver_interface 	$db                 Db object
-	 * @param \phpbb\request\request            	$request            Request object
-	 * @param \phpbb\template\template          	$template           Template object
-	 * @param \phpbb\pagination                 	$pagination         Pagination object
-	 * @param \phpbb\user                       	$user               User object
-	 * @param \phpbb\group\helper               	$group_helper       Group helper object
-	 * @param \phpbb\language\language          	$language           Language object
-	 * @param \phpbb\di\service_collection 			$type_collection	CPF data
-	 * @param \david63\userdetails\core\functions	functions			Functions for the extension
+	 * @param phpbb\config\config              	$config             Config object
+	 * @param phpbb\config\db_text             	$config_text        Config text object
+	 * @param phpbb\db\driver\driver_interface 	$db                 Db object
+	 * @param phpbb\request\request            	$request            Request object
+	 * @param phpbb\template\template          	$template           Template object
+	 * @param phpbb\pagination                 	$pagination         Pagination object
+	 * @param phpbb\user                       	$user               User object
+	 * @param phpbb\group\helper               	$group_helper       Group helper object
+	 * @param phpbb\language\language          	$language           Language object
+	 * @param phpbb\di\service_collection 			$type_collection	CPF data
+	 * @param david63\userdetails\core\functions	functions			Functions for the extension
 	 * @param array	                            	$select_ary			Custom select data
 	 * @param string								$root_path    		phpBB root path
 	 * @param string								$php_ext            phpBB extension
