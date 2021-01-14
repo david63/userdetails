@@ -71,7 +71,7 @@ class data_controller
 	/** @var string Custom form action */
 	protected $u_action;
 
-	/** @var string phpBB tables */
+	/** @var array phpBB tables */
 	protected $tables;
 
 	/** @var string custom constants */

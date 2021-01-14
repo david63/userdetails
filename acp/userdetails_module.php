@@ -1,20 +1,20 @@
 <?php
 /**
-*
-* @package User Details Extension
-* @copyright (c) 2016 david63
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * @package User Details Extension
+ * @copyright (c) 2016 david63
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace david63\userdetails\acp;
 
 class userdetails_module
 {
 	public $tpl_name;
-	var $u_action;
+	public $u_action;
 
-	function main($id, $mode)
+	public function main($id, $mode)
 	{
 		global $phpbb_container, $request;
 
@@ -39,21 +39,21 @@ class userdetails_module
 		{
 			case 'display':
 			case 'sort':
-				// No break
+			// No break
 			case 'clear_filters':
 				$this->tpl_name = 'user_details';
-				// No break
+			// No break
 			case 'csv':
 				$this->page_title = $phpbb_container->get('language')->lang('ACP_USER_DETAILS');
 				$data_controller->display_output($mode);
-			break;
+				break;
 
 			case 'back':
 			default:
-				$this->tpl_name		= 'user_details_select';
-				$this->page_title	= $phpbb_container->get('language')->lang('ACP_USER_DETAILS');
+				$this->tpl_name   = 'user_details_select';
+				$this->page_title = $phpbb_container->get('language')->lang('ACP_USER_DETAILS');
 				$data_controller->select_output();
-			break;
+				break;
 		}
 	}
 }
